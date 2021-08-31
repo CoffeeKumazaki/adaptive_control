@@ -55,3 +55,12 @@ target_link_libraries(${PROJECT_NAME}
   ${OPENGL_gl_LIBRARY} 
 )
 target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_NAME="${PROJECT_NAME}")
+
+add_executable(sample src/sample.cpp)
+target_include_directories(sample PUBLIC
+  include
+)
+add_executable(mrac src/mrac.cpp)
+target_include_directories(mrac PUBLIC
+  include
+)
