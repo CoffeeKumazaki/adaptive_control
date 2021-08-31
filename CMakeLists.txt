@@ -13,6 +13,8 @@ project(${PROJECT_NAME})
 
 find_package(OpenGL REQUIRED)
 add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GLEW)
+include_directories(lib/eigen)
+include_directories(lib/odeint/include)
 include_directories(/usr/local/opt/glew/include)
 include_directories(/opt/homebrew/opt/glew/include)
 include_directories(/usr/local/opt/glfw/include)

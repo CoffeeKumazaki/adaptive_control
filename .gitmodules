@@ -1,0 +1,6 @@
+[submodule "lib/eigen"]
+	path = lib/eigen
+	url = https://gitlab.com/libeigen/eigen.git
+[submodule "lib/odeint"]
+	path = lib/odeint
+	url = git@github.com:headmyshoulder/odeint-v2.git
