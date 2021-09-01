@@ -1,4 +1,5 @@
 #include <stdafx.hpp>
+#include <filesystem>
 #include <observer.hpp>
 #include <Eigen/Dense>
 #include <boost/numeric/odeint.hpp>
@@ -152,24 +153,23 @@ public:
   std::vector<double> input_history;
 };
 
-
-int main(int argc, char const *argv[])
-{
+void run_simulation(std::string name, double k, double cs, double a, double c) {
+  
   state x0;
   x0 << 0.0, 0.0;
 
   System ref("reference", x0);
   System plant("plant", x0);
-  Observer<state, ' '> refObs("mrac_ref.dat");
-  Observer<state, ' '> pltObs("mrac_plt.dat");
+  Observer<state, ' '> refObs(name + "_mrac_ref.dat");
+  Observer<state, ' '> pltObs(name + "_mrac_plt.dat");
 
-  plant.a << 0.0, 1.0, -0.2, -0.2;
+  plant.a << 0.0, 1.0, -k, -cs;
 
   double t = 0;
   double dt = 0.1;
   double simTime = 200.0;
 
-  MRAC<2,0> mrac(1.2, 0.1);
+  MRAC<2,0> mrac(a, c);
   mrac.ref = &ref;
 
   while(t < simTime) {
@@ -187,6 +187,35 @@ int main(int argc, char const *argv[])
     t += dt;
     refObs(ref.state, t);
     pltObs(plant.state, t);
+  }
+
+}
+
+
+int main(int argc, char const *argv[])
+{
+  if (argc <= 1) {
+    cout << "no file" << endl;
+    return 1;
+  }
+  std::filesystem::path filename = argv[1];
+
+  string dirname = filename.filename();
+  std::filesystem::create_directory(dirname);
+
+  ifstream ifs(filename);
+  if (!ifs) {
+    cout << "file not found" << endl;
+    return 1;
+  }
+
+  while (!ifs.eof()) {
+    string name;
+    double k, cs, a, c;
+
+    ifs >> name >> k >> cs >> a >> c;
+    cout << "run " + name << endl;
+    run_simulation(dirname + "/"  + name, k, cs, a, c);
   }
 
   return 0;
