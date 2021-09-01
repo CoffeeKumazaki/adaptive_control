@@ -92,7 +92,6 @@ public:
 
     phi phit = phi::Zero();
     int t = state_history.size() - 1;
-    cout << "t: " << t  << " yt: " << yt << endl;
     if (t >= (n-m)) {
       for (size_t i = 0; i < n && i <= t-(n-m); i++) {
         phit[i] = state_history[t-(n-m)-i][X];
@@ -101,8 +100,6 @@ public:
         phit[n+i] = input_history[t-(n-m)-i];
       }
     }
-    cout << "phi(t-d)" << endl;
-    cout << phit << endl;
 
     // calc error.
     double error = 0.0;
@@ -111,15 +108,12 @@ public:
       parameter prevParam = parameters.back();
       error = yt[X] - prevParam.transpose() * phit;
     }
-    cout << "error " << error << endl;
 
     // update parameter.
     parameter pt = parameter::Random();
     if (parameters.size() > 0) {
       pt = parameters.back() + gain * phit / ( c + phit.transpose()*phit) * error;
     }
-    cout << "pt" << endl;
-    cout << pt << endl;
 
     parameters.push_back(pt);
 
@@ -142,7 +136,6 @@ public:
       
       u /= pt[n];
     }
-    cout << "u: " << u << " r: " << r << endl;
 
     input_history.push_back(u);
 
@@ -180,25 +173,20 @@ int main(int argc, char const *argv[])
   mrac.ref = &ref;
 
   while(t < simTime) {
-    std::cout << "t:  " << t << std::endl;
     
     double input = sinwave(t);
 
     ref.input << input;
 
-    std::cout << " decision ..." << std::endl;
     double mrac_input = mrac.decision(plant.state, input, dt);
-    std::cout << "mrac_input " << mrac_input << std::endl;
     plant.input << mrac_input;
 
     ref.update(dt);
     plant.update(dt);
-    std::cout << "plant " << plant.state[X] << std::endl;
 
     t += dt;
     refObs(ref.state, t);
     pltObs(plant.state, t);
-    std::cout << std::endl;
   }
 
   return 0;
