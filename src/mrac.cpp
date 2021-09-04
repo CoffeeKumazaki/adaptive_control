@@ -78,6 +78,7 @@ public:
 template <size_t n, size_t m>
 class MRAC {
 
+public:
   using parameter = Eigen::Vector<double, (n-m)*2>;
   using phi = Eigen::Vector<double, (n-m)*2>;
 
@@ -109,6 +110,7 @@ public:
       parameter prevParam = parameters.back();
       error = yt[X] - prevParam.transpose() * phit;
     }
+    std::cout << error << std::endl;
 
     // update parameter.
     parameter pt = parameter::Random();
@@ -162,19 +164,20 @@ void run_simulation(std::string name, double k, double cs, double a, double c) {
   System plant("plant", x0);
   Observer<state, ' '> refObs(name + "_mrac_ref.dat");
   Observer<state, ' '> pltObs(name + "_mrac_plt.dat");
+  Observer<MRAC<2,0>::parameter, ' '> prmObs(name + "_mrac_prm.dat");
 
   plant.a << 0.0, 1.0, -k, -cs;
 
   double t = 0;
   double dt = 0.1;
-  double simTime = 200.0;
+  double simTime = 100.0;
 
   MRAC<2,0> mrac(a, c);
   mrac.ref = &ref;
 
   while(t < simTime) {
     
-    double input = sinwave(t);
+    double input = step(t);
 
     ref.input << input;
 
@@ -187,6 +190,7 @@ void run_simulation(std::string name, double k, double cs, double a, double c) {
     t += dt;
     refObs(ref.state, t);
     pltObs(plant.state, t);
+    prmObs(mrac.parameters.back(), t);  
   }
 
 }
