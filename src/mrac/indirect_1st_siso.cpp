@@ -4,8 +4,8 @@
 using namespace std;
 
 class MRAC_SISO {
-  static const int STATE_DIM = 2;
-  using parameter_t = Eigen::Vector<double, STATE_DIM>;
+  static const int PARAM_NUM = 2;
+  using parameter_t = Eigen::Vector<double, PARAM_NUM>;
   using state_t  = LTISystem<1, 1, 1>::state_t;
   using input_t  = LTISystem<1, 1, 1>::input_t;
   using output_t = LTISystem<1, 1, 1>::output_t;
@@ -69,7 +69,7 @@ public:
 private:
   LTISystem<1, 1, 1> model;
   double gain_a, gain_b;
-  Eigen::Vector<double, 2> pd; 
+  parameter_t pd; 
   boost::numeric::odeint::runge_kutta4<parameter_t> stepper;
 };
 
