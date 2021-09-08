@@ -67,3 +67,4 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_NAME="${PROJECT_NAME}
 add_exe(src/sample.cpp)
 add_exe(src/mrac.cpp)
 add_exe(src/mrac/direct_1st_siso.cpp)
+add_exe(src/mrac/indirect_1st_siso.cpp)
