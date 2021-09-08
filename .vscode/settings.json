@@ -87,6 +87,25 @@
     "hash_map": "cpp",
     "stop_token": "cpp",
     "cinttypes": "cpp",
-    "filesystem": "cpp"
+    "filesystem": "cpp",
+    "any": "cpp",
+    "barrier": "cpp",
+    "cfenv": "cpp",
+    "charconv": "cpp",
+    "csetjmp": "cpp",
+    "csignal": "cpp",
+    "coroutine": "cpp",
+    "forward_list": "cpp",
+    "latch": "cpp",
+    "regex": "cpp",
+    "scoped_allocator": "cpp",
+    "shared_mutex": "cpp",
+    "span": "cpp",
+    "typeindex": "cpp",
+    "variant": "cpp",
+    "cuchar": "cpp",
+    "source_location": "cpp",
+    "ranges": "cpp",
+    "syncstream": "cpp"
   }
 }

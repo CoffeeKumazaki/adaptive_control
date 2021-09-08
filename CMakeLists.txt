@@ -24,6 +24,14 @@ include_directories(/opt/homebrew/opt/glfw/include)
 link_directories(/usr/local/lib)
 link_directories(/opt/homebrew/lib)
 
+function(add_exe file)
+  get_filename_component(exe ${file} NAME_WE)
+  add_executable(${exe} ${file})
+  target_include_directories(${exe} PUBLIC
+    include
+  )
+endfunction(add_exe)
+
 ## add imgui as a library
 add_library(imgui STATIC
   src/imgui/imgui.cpp
@@ -56,11 +64,6 @@ target_link_libraries(${PROJECT_NAME}
 )
 target_compile_definitions(${PROJECT_NAME} PRIVATE PROJECT_NAME="${PROJECT_NAME}")
 
-add_executable(sample src/sample.cpp)
-target_include_directories(sample PUBLIC
-  include
-)
-add_executable(mrac src/mrac.cpp)
-target_include_directories(mrac PUBLIC
-  include
-)
+add_exe(src/sample.cpp)
+add_exe(src/mrac.cpp)
+add_exe(src/mrac/direct_1st_siso.cpp)

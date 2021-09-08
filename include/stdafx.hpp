@@ -18,3 +18,6 @@
 #include <math.h>
 #include <random>
 #include <memory>
+
+#include <Eigen/Dense>
+#include <boost/numeric/odeint.hpp>
