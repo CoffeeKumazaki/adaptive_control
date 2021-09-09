@@ -79,7 +79,7 @@ int main(int argc, char const *argv[])
   init << 0.0;
 
   LTISystem<1, 1, 1> plant("plant", init);
-  plant.a << 1.0;
+  plant.a << 0.5;
   plant.b << 1.0;
   plant.c << 1.0;
   plant.d << 0.0;
